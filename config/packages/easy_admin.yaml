@@ -1,0 +1,139 @@
+easy_admin:
+  design:
+    menu:
+      - { entity: 'Delivery', label: 'Службы доставки', icon: 'truck' , default: true }
+      - { entity: 'DeliveryType', label: 'Типы служб доставки', icon: 'exchange' }
+      - { entity: 'DeliveryLocation', label: 'Местоположения служб доставки', icon: 'map-marker' }
+      - { entity: 'DeliveryLocationTariff', label: 'Тарифы для местоположений', icon: 'rub' }
+      - { entity: 'DeliveryOption', label: 'Параметры доставок', icon: 'cog' }
+  list:
+    batch_actions: [ 'delete' ]
+    actions:
+      - { name: 'new', label: 'Добавить' }
+      - { name: 'edit', label: 'Редактировать' }
+      - { name: 'delete', label: 'Удалить' }
+      - { name: 'search', label: 'Найти' }
+  user:
+    display_name: true
+  site_name: 'Настройка служб доставок Монастырёв.рф'
+  entities:
+    Delivery:
+      class: Monastirevrf\DeliveryService\Entity\Delivery
+      list:
+        title: 'Список служб доставок'
+        sort: [ 'sort', 'ASC' ]
+        fields:
+          - { property: 'id', label: 'ID' }
+          - { property: 'active', label: 'Активность' }
+          - { property: 'deliveryType', label: 'Тип доставки' }
+          - { property: 'name', label: 'Название' }
+          - { property: 'code', label: 'Код' }
+          - { property: 'sort', label: 'Сортировка' }
+      form:
+        fields:
+          - { property: 'active', label: 'Активность' }
+          - { property: 'deliveryType', label: 'Тип службы доставки' }
+          - { property: 'name', label: 'Название' }
+          - { property: 'code', label: 'Код' }
+          - { property: 'sort', label: 'Сортировка' }
+          - { property: 'description', label: 'Описание' }
+
+    DeliveryLocation:
+      class: Monastirevrf\DeliveryService\Entity\DeliveryLocation
+      title: 'Местоположения доставок'
+      list:
+        title: 'Список местоположений доставок'
+        sort: [ 'cityName', 'ASC' ]
+        filters: [ 'active', 'deliveryId', 'cityName' ]
+        fields:
+          - { property: 'active', label: 'Активность' }
+          - { property: 'delivery', label: 'Служба доставки' }
+          - { property: 'regionName', label: 'Регион' }
+          - { property: 'cityName', label: 'Город' }
+          - { property: 'cityArea', label: 'Округ' }
+          - { property: 'cityDistrict', label: 'Район' }
+      form:
+        title: 'Местоположение'
+        fields:
+          - { property: 'active', label: 'Активность' }
+          - { property: 'delivery', label: 'Служба доставки' }
+          - { property: 'countryName', label: 'Название страны' }
+          - { property: 'countryIsoCode', label: 'Код страны' }
+          - { property: 'cityKladrId', label: 'Код КЛАДР города' }
+          - { property: 'timeZone', label: 'Временная зона' }
+          - { property: 'deliveryTimeFrom', label: 'Время доставки с' }
+          - { property: 'deliveryTimeTo', label: 'Время доставки до' }
+          - { property: 'federalDistrict', label: 'Федеральный округ' }
+          - { property: 'regionKladrId', label: 'Код КЛАДР региона' }
+          - { property: 'regionName', label: 'Название региона' }
+          - { property: 'cityName', label: 'Название города' }
+          - { property: 'cityArea', label: 'Округ' }
+          - { property: 'cityDistrict', label: 'Район' }
+          - { property: 'freeDeliveryFromSumm', label: 'Бесплатная доставка от' }
+
+    DeliveryLocationTariff:
+      class: Monastirevrf\DeliveryService\Entity\DeliveryLocationTariff
+      title: 'Тарифы для местоположений'
+      list:
+        title: 'Тарифы для местоположений'
+        fields:
+          - { property: 'active', label: 'Активность' }
+          - { property: 'location', label: 'Местоположение' }
+          - { property: 'tradePointId', label: 'Id торговой точки' }
+          - { property: 'tradePointAddress', label: 'Адрес торговой точки' }
+          - { property: 'deliveryTime', label: 'Время доставки часа' }
+          - { property: 'minDeliveryPrice', label: 'Минимальная цена доставки' }
+      form:
+        title: 'Тариф для местоположений'
+        fields:
+          - { property: 'active', label: 'Активность' }
+          - { property: 'location', label: 'Местоположение' }
+          - { property: 'tradePointId', label: 'Id торговой точки' }
+          - { property: 'tradePointLatitude', label: 'Широта торговой точки', type: 'text' }
+          - { property: 'tradePointLongitude', label: 'Долгота торговой точки', type: 'text' }
+          - { property: 'tradePointPostCode', label: 'Индекс торговой точки' }
+          - { property: 'workOfTradePointWith', label: 'Работа торговой точки с' }
+          - { property: 'workOfTradePointOn', label: 'Работа торговой точки до' }
+          - { property: 'minDeliveryPrice', label: 'Минимальная цена доставки' }
+          - { property: 'orderPickupTime', label: 'Время забора заказа' }
+          - { property: 'deliveryTime', label: 'Срок доставки в часах' }
+          - { property: 'pricePerKilometer', label: 'Цена за километр' }
+          - { property: 'calculationByRadius', label: 'Расчет по радиусу' }
+          - { property: 'costRulesDeliveryByRadius', label: 'Правила стоимости по радиусам' }
+          - { property: 'tradePointAddress', label: 'Адрес торговой точки' }
+
+    DeliveryType:
+      class: Monastirevrf\DeliveryService\Entity\DeliveryType
+      title: 'Типы служб доставки'
+      list:
+        title: 'Типы служб доставки'
+        fields:
+          - { property: 'name', label: 'Название' }
+          - { property: 'code', label: 'Код' }
+          - { property: 'deliveries', label: 'Доставки' }
+      form:
+        title: 'Тип службы доставки'
+        fields:
+          - { property: 'name', label: 'Название' }
+          - { property: 'code', label: 'Код' }
+          - { property: 'deliveries', label: 'Доставки' }
+
+    DeliveryOption:
+      class: Monastirevrf\DeliveryService\Entity\DeliveryOption
+      title: 'Параметры доставок'
+      list:
+        title: 'Параметры доставок'
+        fields:
+          - { property: 'delivery', label: 'Служба доставки' }
+          - { property: 'code', label: 'Код параметра' }
+          - { property: 'name', label: 'Название параметра' }
+          - { property: 'value', label: 'Значение параметра' }
+          - { property: 'description', label: 'Описание параметра' }
+      form:
+        title: 'Параметры доставки'
+        fields:
+          - { property: 'delivery', label: 'Служба доставки' }
+          - { property: 'code', label: 'Код параметра' }
+          - { property: 'name', label: 'Название параметра' }
+          - { property: 'value', label: 'Значение параметра' }
+          - { property: 'description', label: 'Описание параметра' }
